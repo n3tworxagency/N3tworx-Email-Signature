@@ -202,8 +202,8 @@ function generateSignature() {
   const wrap = container.querySelector('.sig-wrap');
   const contentH = Math.ceil(wrap.getBoundingClientRect().height) + 20; // +20 = top padding
 
-  // Filler fills the gap up to PANEL_H; +10px buffer for Outlook's Arial rendering shorter
-  const fillerH = Math.max(0, PANEL_H - contentH + 10);
+  // Filler fills the gap to exactly PANEL_H — no overshoot, no dark below left image
+  const fillerH = Math.max(0, PANEL_H - contentH);
 
   // Pass 2: bake filler into the final HTML that gets copied
   container.innerHTML = buildSignatureHTML(name, title, fillerH);
