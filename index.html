@@ -43,7 +43,7 @@
   .preview-section { display: none; }
   .preview-section.visible { display: block; }
   .preview-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 14px; text-align: center; }
-  .preview-wrapper { background: #e8e8e8; border-radius: 12px; padding: 24px 24px 0; display: flex; justify-content: center; margin-bottom: 20px; overflow-x: auto; }
+  .preview-wrapper { background: #e8e8e8; border-radius: 12px; padding: 24px; display: flex; justify-content: center; margin-bottom: 20px; overflow-x: auto; }
   .copy-btn {
     width: 100%; padding: 14px; background: transparent; color: #50C589;
     font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 800;
@@ -117,14 +117,15 @@ const WEB_B64   = "iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAAABmJLR0QA/wD/A
 
 function buildSignatureHTML(name, title) {
   return `
+<div style="display:inline-block;border-radius:10px;overflow:hidden;box-shadow:0 4px 28px rgba(0,0,0,0.15);background-color:#141C25;">
 <table cellpadding="0" cellspacing="0" border="0" role="presentation"
-  style="width:520px;font-family:Manrope,Arial,sans-serif;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;">
+  style="width:520px;font-family:Manrope,Arial,sans-serif;">
 <tr valign="top">
   <td align="center" bgcolor="#141C25"
-      style="width:160px;padding:0;vertical-align:top;text-align:center;background-color:#141C25 !important;font-size:0;line-height:0;">
+      style="width:160px;padding:0;vertical-align:top;text-align:center;background-color:#141C25 !important;">
     <img src="data:image/png;base64,${PANEL_B64}"
          width="${PANEL_W}" height="${PANEL_H}"
-         style="display:block;border:0;width:${PANEL_W}px;height:${PANEL_H}px;vertical-align:top;" />
+         style="display:block;border:0;width:${PANEL_W}px;height:${PANEL_H}px;margin:0 auto;" />
   </td>
   <td bgcolor="#ffffff" data-ogsc="#ffffff"
       style="background-color:#ffffff !important;color:#141C25 !important;vertical-align:top;padding:20px 24px 18px 24px;">
@@ -174,7 +175,8 @@ function buildSignatureHTML(name, title) {
     </table>
   </td>
 </tr>
-</table>`.trim();
+</table>
+</div>`.trim();
 }
 
 function generateSignature() {
