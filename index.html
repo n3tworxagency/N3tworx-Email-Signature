@@ -124,11 +124,14 @@ function buildSignatureHTML(name, title, fillerH) {
   return `<table cellpadding="0" cellspacing="0" border="0" role="presentation" align="center"
   style="width:520px;font-family:Manrope,Arial,sans-serif;border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;margin:0 auto;">
 <tr valign="top">
-  <td bgcolor="#141C25" width="${PANEL_W}"
-      style="width:${PANEL_W}px;padding:0;vertical-align:top;background-color:#141C25 !important;background-image:url('data:image/png;base64,${PANEL_B64}');background-repeat:no-repeat;background-position:top center;background-size:cover;font-size:0;line-height:0;">
+  <td align="center" bgcolor="#141C25" width="${PANEL_W}"
+      style="width:${PANEL_W}px;padding:0;vertical-align:top;text-align:center;background-color:#141C25 !important;font-size:0;line-height:0;">
+    <img src="data:image/png;base64,${PANEL_B64}"
+         width="${PANEL_W}" height="${PANEL_H}"
+         style="display:block;border:0;width:${PANEL_W}px;height:${PANEL_H}px;vertical-align:top;" />
   </td>
   <td bgcolor="#ffffff" data-ogsc="#ffffff"
-      style="background-color:#ffffff !important;color:#141C25 !important;vertical-align:top;padding:20px 24px 0 24px;">
+      style="background-color:#ffffff !important;color:#141C25 !important;vertical-align:top;padding:20px 24px 16px 24px;">
     <div class="sig-wrap">
     <p style="margin:0 0 8px 0;font-family:Manrope,Arial,sans-serif;font-size:11px;color:#B18A71;font-weight:400;font-style:italic;">Warm regards,</p>
     <p style="margin:0 0 6px 0;font-family:Manrope,Arial,sans-serif;font-size:24px;font-weight:800;color:#141C25 !important;letter-spacing:-0.5px;line-height:1.1;">${name}</p>
@@ -197,7 +200,10 @@ function generateSignature() {
 
   // Measure the content wrapper div (not the td, which stretches to row height)
   const wrap = container.querySelector('.sig-wrap');
-  const contentH = Math.ceil(wrap.getBoundingClientRect().height) + 20; // +20 = top padding
+  // Temporarily switch to Arial to measure as Outlook renders it
+  wrap.style.fontFamily = 'Arial, sans-serif';
+  const contentH = Math.ceil(wrap.getBoundingClientRect().height) + 36; // 20 top + 16 bottom padding
+  wrap.style.fontFamily = '';
 
   // Filler fills the gap to exactly PANEL_H — no overshoot, no dark below left image
   const fillerH = Math.max(0, PANEL_H - contentH);
