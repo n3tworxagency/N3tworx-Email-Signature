@@ -132,6 +132,7 @@ function buildSignatureHTML(name, title, fillerH) {
   </td>
   <td bgcolor="#ffffff" data-ogsc="#ffffff"
       style="background-color:#ffffff !important;color:#141C25 !important;vertical-align:top;padding:20px 24px 0 24px;">
+    <div class="sig-wrap">
     <p style="margin:0 0 8px 0;font-family:Manrope,Arial,sans-serif;font-size:11px;color:#B18A71;font-weight:400;font-style:italic;">Warm regards,</p>
     <p style="margin:0 0 6px 0;font-family:Manrope,Arial,sans-serif;font-size:24px;font-weight:800;color:#141C25 !important;letter-spacing:-0.5px;line-height:1.1;">${name}</p>
     <p style="margin:0 0 14px 0;font-family:Manrope,Arial,sans-serif;font-size:10px;font-weight:600;color:#50C589;letter-spacing:2px;">${title.toUpperCase()}</p>
@@ -176,6 +177,7 @@ function buildSignatureHTML(name, title, fillerH) {
         </td>
       </tr>
     </table>
+    </div>
     ${filler}
   </td>
 </tr>
@@ -186,22 +188,27 @@ function generateSignature() {
   const name  = document.getElementById('nameInput').value.trim() || 'Name';
   const title = document.getElementById('titleInput').value.trim() || 'Title';
   const container = document.getElementById('sigContainer');
+  const section   = document.getElementById('previewSection');
 
-  // Pass 1: render with no filler to measure actual right-panel content height
-  container.innerHTML = buildSignatureHTML(name, title, 0);
-  const rightTd = container.querySelector('tr td:nth-child(2)');
-  const contentH = Math.ceil(rightTd.getBoundingClientRect().height);
-
-  // Calculate filler: ensure right panel = PANEL_H, +15px buffer for Outlook's Arial fallback
-  const fillerH = Math.max(0, PANEL_H - contentH + 15);
-
-  // Pass 2: render with exact filler so white panel fills the left-panel height
-  container.innerHTML = buildSignatureHTML(name, title, fillerH);
-
-  document.getElementById('previewSection').classList.add('visible');
+  // Show section FIRST so elements have real rendered dimensions
+  section.classList.add('visible');
   document.getElementById('copyBtn').textContent = 'Copy Signature';
   document.getElementById('copyBtn').classList.remove('copied');
-  document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth' });
+
+  // Pass 1: render with no filler so we can measure true content height
+  container.innerHTML = buildSignatureHTML(name, title, 0);
+
+  // Measure the content wrapper div (not the td, which stretches to row height)
+  const wrap = container.querySelector('.sig-wrap');
+  const contentH = Math.ceil(wrap.getBoundingClientRect().height) + 20; // +20 = top padding
+
+  // Filler fills the gap up to PANEL_H; +10px buffer for Outlook's Arial rendering shorter
+  const fillerH = Math.max(0, PANEL_H - contentH + 10);
+
+  // Pass 2: bake filler into the final HTML that gets copied
+  container.innerHTML = buildSignatureHTML(name, title, fillerH);
+
+  section.scrollIntoView({ behavior: 'smooth' });
 }
 
 function copySignature() {
