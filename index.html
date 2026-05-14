@@ -201,20 +201,14 @@ function generateSignature() {
 
   const wrap = container.querySelector('.sig-wrap');
 
-  // Measure with Arial to approximate Outlook rendering
-  wrap.style.fontFamily = 'Arial, sans-serif';
-  const arialH = Math.ceil(wrap.getBoundingClientRect().height);
-  wrap.style.fontFamily = '';
+  // Measure actual rendered content height
+  const measuredH = Math.ceil(wrap.getBoundingClientRect().height);
+  const rightTdH = 20 + measuredH + 16; // top + content + bottom padding
 
-  // OWA renders Arial ~10% taller than browser — estimate OWA height
-  const owaH = Math.ceil(arialH * 1.1);
-  const owaContentH = 20 + owaH + 16; // top padding + sig-wrap + bottom padding
-
-  // Filler only needed when OWA content is shorter than PANEL_H
-  const fillerH = Math.max(0, PANEL_H - owaContentH);
-
-  // Image height = tall enough to cover the full row in both browser and OWA
-  const imgH = Math.max(PANEL_H, owaContentH);
+  // +50px buffer so the image always covers the full row in OWA,
+  // which renders fonts taller than the browser measurement
+  const imgH = Math.max(PANEL_H, rightTdH + 50);
+  const fillerH = 0;
 
   // Pass 2: bake filler and dynamic image height into final HTML
   container.innerHTML = buildSignatureHTML(name, title, fillerH, imgH);
