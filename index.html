@@ -132,7 +132,7 @@ function buildSignatureHTML(name, title, fillerH, imgH) {
          style="display:block;border:0;width:${PANEL_W}px;height:${imgH}px;vertical-align:top;" />
   </td>
   <td bgcolor="#ffffff" data-ogsc="#ffffff"
-      style="background-color:#ffffff !important;color:#141C25 !important;vertical-align:top;padding:20px 24px 16px 24px;">
+      style="background-color:#ffffff !important;color:#141C25 !important;vertical-align:top;padding:20px 24px 0 24px;">
     <div class="sig-wrap">
     <p style="margin:0 0 8px 0;font-family:Manrope,Arial,sans-serif;font-size:11px;color:#B18A71;font-weight:400;font-style:italic;">Warm regards,</p>
     <p style="margin:0 0 6px 0;font-family:Manrope,Arial,sans-serif;font-size:24px;font-weight:800;color:#141C25 !important;letter-spacing:-0.5px;line-height:1.1;">${name}</p>
@@ -205,7 +205,7 @@ function generateSignature() {
   const measuredH = Math.ceil(wrap.getBoundingClientRect().height);
 
   // Filler pads the right td to match the left panel image height
-  const fillerH = Math.max(0, PANEL_H - 20 - 16 - measuredH);
+  const fillerH = Math.max(0, PANEL_H - 20 - measuredH);
   const imgH = PANEL_H;
 
   // Pass 2: bake filler and dynamic image height into final HTML
